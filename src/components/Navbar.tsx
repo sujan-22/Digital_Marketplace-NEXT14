@@ -18,7 +18,7 @@ const Navbar = () => {
 
                             <div className=" ml-4 flex lg:ml-0">
                                 <Link href="/">
-                                    <h1 className=" text-4xl font-extralight font ita">
+                                    <h1 className=" text-4xl font-extralight font ">
                                         DIGI
                                     </h1>
                                 </Link>
@@ -46,8 +46,7 @@ const Navbar = () => {
                                         />
                                     )}
 
-                                    {user ? // <UserAccountNav user={user} />
-                                    null : (
+                                    {user ? null : ( // <UserAccountNav user={user} />
                                         <Link
                                             href="/sign-up"
                                             className={buttonVariants({

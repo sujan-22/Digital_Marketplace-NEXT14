@@ -15,10 +15,14 @@ import {
 import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-import { useRouter } from "next/navigation"; // Use useRouter hook
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Page = () => {
+    const searchParams = useSearchParams();
     const router = useRouter();
+    const isSeller = searchParams.get("as") === "seller";
+    const origin = searchParams.get("origin");
+
     const {
         register,
         handleSubmit,
@@ -27,7 +31,7 @@ const Page = () => {
         resolver: zodResolver(authCredentialsValidator),
     });
 
-    const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+    const { mutate, isLoading } = trpc.auth.signIn.useMutation({
         onError: (err) => {
             if (err.data?.code === "CONFLICT") {
                 toast.error("Email already exists! Sign in instead?");
@@ -59,7 +63,7 @@ const Page = () => {
                             DIGI
                         </h1>
                         <h1 className="text-2xl font-semibold tracking-tight">
-                            Create an account
+                            Sign in to your account
                         </h1>
 
                         <Link
@@ -67,9 +71,9 @@ const Page = () => {
                                 variant: "link",
                                 className: "gap-1.5",
                             })}
-                            href="/sign-in"
+                            href="/sign-up"
                         >
-                            Already have an account? Sign-in
+                            Don&apos;t have an account? Create one!
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                     </div>
@@ -112,9 +116,22 @@ const Page = () => {
                                     )}
                                 </div>
 
-                                <Button isLoading={isLoading}>Sign up</Button>
+                                <Button isLoading={isLoading}>Sign in</Button>
                             </div>
                         </form>
+                        <div className="relative">
+                            <div
+                                aria-hidden="true"
+                                className="absolute inset-0 flex items-center"
+                            >
+                                <span className="w-full border-t" />
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-background px-2 text-muted-foreground">
+                                    or
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

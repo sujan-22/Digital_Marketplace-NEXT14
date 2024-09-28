@@ -3,6 +3,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { cn } from "../lib/utils";
 import Navbar from "@/components/Navbar";
+import Providers from "@/components/Providers";
+import { Toaster } from "sonner";
 
 const nunito = Nunito({ subsets: ["cyrillic"], weight: "400" });
 
@@ -25,9 +27,12 @@ export default function RootLayout({
                 )}
             >
                 <main className="relative flex flex-col min-h-screen">
-                    <Navbar />
-                    <div className=" flex-grow flex-1">{children}</div>
+                    <Providers>
+                        <Navbar />
+                        <div className=" flex-grow flex-1">{children}</div>
+                    </Providers>
                 </main>
+                <Toaster position="top-right" richColors />
             </body>
         </html>
     );
